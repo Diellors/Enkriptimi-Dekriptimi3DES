@@ -1,0 +1,19 @@
+# Injoro folderat që krijon Python kur ekzekutohet
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Injoro mjediset virtuale (nëse përdor venv)
+venv/
+env/
+ENV/
+
+# Injoro skedarët e sistemit ose të editorëve
+.vscode/
+.idea/
+.DS_Store
+
+# SHUMË E RËNDËSISHME: Injoro skedarët me çelësa ose fjalëkalime
+.env
+keys.txt
+*.pem
