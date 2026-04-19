@@ -50,6 +50,25 @@ def enkripto_fajll():
         print("Fajlli u lexua me sukses!")
     except Exception as e:
         print(f"Gabim: {e}")
+        def dekripto_fajll():
+    file_name = input("Shkruaj emrin e fajllit të enkriptuar ")
+    try:
+        with open(file_name, "rb") as f:
+            data = f.read()
+
+        iv = data[:8]
+        encrypted = data[8:]
+
+        cipher = DES3.new(KEY, DES3.MODE_CBC, iv=iv)
+        decrypted = unpad(cipher.decrypt(encrypted), DES3.block_size)
+
+        output_name = "decrypted_" + file_name.replace("encrypted_", "")
+        with open(output_name, "wb") as f:
+            f.write(decrypted)
+
+        print(f"Fajlli u dekriptua me sukses! Emri: {output_name}")
+    except Exception as e:
+        print(f"Gabim gjatë dekriptimit: {e}")
 
         
 
