@@ -51,7 +51,8 @@ def enkripto_fajll():
         print("Fajlli u lexua me sukses!")
     except Exception as e:
         print(f"Gabim: {e}")
-        def dekripto_fajll():
+        
+def dekripto_fajll():
     file_name = input("Shkruaj emrin e fajllit të enkriptuar ")
     try:
         with open(file_name, "rb") as f:
