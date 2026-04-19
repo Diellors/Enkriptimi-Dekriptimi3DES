@@ -1,27 +1,38 @@
 from Crypto.Cipher import DES3
-from Crypto.Util.Padding import pad
-from Crypto.Random import get_random_bytes
-from Crypto.Util.Padding import unpad
+from Crypto.Util.Padding import pad, unpad
 import base64
 
+# Qelesi
 KEY = b"1234567890abcdef12345678"
 KEY = DES3.adjust_key_parity(KEY)
 
+
+# Teksti
+
 def enkripto_tekst():
     message = input("Shkruaj tekstin: ")
+
     cipher = DES3.new(KEY, DES3.MODE_CBC)
     iv = cipher.iv
 
-    padded = pad(message.encode(), DES3.block_size)
+    padded = pad(message.encode("utf-8"), DES3.block_size)
     encrypted = cipher.encrypt(padded)
 
-    result = base64.b64encode(iv + encrypted).decode()
-    print("\nTeksti i enkriptuar:", result)
+    result = base64.b64encode(iv + encrypted).decode("utf-8")
+
+    print("\nTeksti i enkriptuar:")
+    print(result)
+
 
 def dekripto_tekst():
-    encrypted_input = input("Shkruaj tekstin (Base64): ")
+    encrypted_input = input("Shkruaj tekstin e enkriptuar (Base64): ")
+
     try:
         data = base64.b64decode(encrypted_input)
+
+        if len(data) < 8:
+            print("Input i pavlefshëm!")
+            return
 
         iv = data[:8]
         encrypted = data[8:]
@@ -29,34 +40,49 @@ def dekripto_tekst():
         cipher = DES3.new(KEY, DES3.MODE_CBC, iv=iv)
         decrypted = unpad(cipher.decrypt(encrypted), DES3.block_size)
 
-        print("\nTeksti i dekriptuar:", decrypted.decode())
-    except:
-        print("Gabim gjatë dekriptimit!")
-    
+        print("\nTeksti i dekriptuar:")
+        print(decrypted.decode("utf-8"))
+
+    except Exception as e:
+        print("Gabim gjatë dekriptimit:", e)
+
+
+#Fajllat
 
 def enkripto_fajll():
     file_name = input("Shkruaj emrin e fajllit: ")
+
     try:
         with open(file_name, "rb") as f:
             data = f.read()
+
         cipher = DES3.new(KEY, DES3.MODE_CBC)
         iv = cipher.iv
 
         encrypted = cipher.encrypt(pad(data, DES3.block_size))
+
         output_name = "encrypted_" + file_name
+
         with open(output_name, "wb") as f:
             f.write(iv + encrypted)
 
+        print("\nFajlli u enkriptua me sukses!")
+        print("Fajlli i ri:", output_name)
 
-        print("Fajlli u lexua me sukses!")
     except Exception as e:
-        print(f"Gabim: {e}")
-        
+        print("Gabim:", e)
+
+
 def dekripto_fajll():
-    file_name = input("Shkruaj emrin e fajllit të enkriptuar ")
+    file_name = input("Shkruaj emrin e fajllit të enkriptuar: ")
+
     try:
         with open(file_name, "rb") as f:
             data = f.read()
+
+        if len(data) < 8:
+            print("Fajll i pavlefshëm!")
+            return
 
         iv = data[:8]
         encrypted = data[8:]
@@ -65,12 +91,18 @@ def dekripto_fajll():
         decrypted = unpad(cipher.decrypt(encrypted), DES3.block_size)
 
         output_name = "decrypted_" + file_name.replace("encrypted_", "")
+
         with open(output_name, "wb") as f:
             f.write(decrypted)
 
-        print(f"Fajlli u dekriptua me sukses! Emri: {output_name}")
+        print("\nFajlli u dekriptua me sukses!")
+        print("Fajlli i ri:", output_name)
+
     except Exception as e:
-        print(f"Gabim gjatë dekriptimit: {e}")
+        print("Gabim gjatë dekriptimit:", e)
+
+
+# Menu kryesor
 
 while True:
     print("\n--- 3DES MENU ---")
