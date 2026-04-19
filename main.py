@@ -42,8 +42,6 @@ def enkripto_fajll():
 
 
 
-
-        
 while True:
     print("\n--- 3DES MENU ---")
     print("1. Enkripto Tekst")
@@ -53,3 +51,17 @@ while True:
     print("0. Dil")
 
     zgjedhja = input("Zgjedhja: ")
+
+    if zgjedhja == "1":
+        enkripto_tekst()
+    elif zgjedhja == "2":
+        enkripto_fajll()
+    elif zgjedhja == "3":
+        dekripto_tekst()
+    elif zgjedhja == "4":
+        dekripto_fajll()
+    elif zgjedhja == "0":
+        print("Programi u mbyll.")
+        break
+    else:
+        print("Opsion i pavlefshëm!")
