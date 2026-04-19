@@ -16,3 +16,14 @@ def enkripto_tekst():
 
     result = base64.b64encode(iv + encrypted).decode()
     print("\nTeksti i enkriptuar:", result)
+    
+
+    def enkripto_fajll():
+    file_name = input("Shkruaj emrin e fajllit: ")
+    try:
+        with open(file_name, "rb") as f:
+            data = f.read()
+
+        print("Fajlli u lexua me sukses!")
+    except Exception as e:
+        print(f"Gabim: {e}")
