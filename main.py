@@ -18,11 +18,16 @@ def enkripto_tekst():
     print("\nTeksti i enkriptuar:", result)
     
 
-    def enkripto_fajll():
+ def enkripto_fajll():
     file_name = input("Shkruaj emrin e fajllit: ")
     try:
         with open(file_name, "rb") as f:
             data = f.read()
+        cipher = DES3.new(KEY, DES3.MODE_CBC)
+        iv = cipher.iv
+
+        encrypted = cipher.encrypt(pad(data, DES3.block_size))
+
 
         print("Fajlli u lexua me sukses!")
     except Exception as e:
