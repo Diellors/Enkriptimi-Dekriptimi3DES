@@ -1,6 +1,7 @@
 from Crypto.Cipher import DES3
 from Crypto.Util.Padding import pad
 from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import unpad
 import base64
 
 KEY = b"1234567890abcdef12345678"
@@ -16,6 +17,21 @@ def enkripto_tekst():
 
     result = base64.b64encode(iv + encrypted).decode()
     print("\nTeksti i enkriptuar:", result)
+
+def dekripto_tekst():
+    encrypted_input = input("Shkruaj tekstin (Base64): ")
+    try:
+        data = base64.b64decode(encrypted_input)
+
+        iv = data[:8]
+        encrypted = data[8:]
+
+        cipher = DES3.new(KEY, DES3.MODE_CBC, iv=iv)
+        decrypted = unpad(cipher.decrypt(encrypted), DES3.block_size)
+
+        print("\nTeksti i dekriptuar:", decrypted.decode())
+    except:
+        print("Gabim gjatë dekriptimit!")
     
 
 def enkripto_fajll():
@@ -35,12 +51,26 @@ def enkripto_fajll():
         print("Fajlli u lexua me sukses!")
     except Exception as e:
         print(f"Gabim: {e}")
-
         
+def dekripto_fajll():
+    file_name = input("Shkruaj emrin e fajllit të enkriptuar ")
+    try:
+        with open(file_name, "rb") as f:
+            data = f.read()
 
+        iv = data[:8]
+        encrypted = data[8:]
 
+        cipher = DES3.new(KEY, DES3.MODE_CBC, iv=iv)
+        decrypted = unpad(cipher.decrypt(encrypted), DES3.block_size)
 
+        output_name = "decrypted_" + file_name.replace("encrypted_", "")
+        with open(output_name, "wb") as f:
+            f.write(decrypted)
 
+        print(f"Fajlli u dekriptua me sukses! Emri: {output_name}")
+    except Exception as e:
+        print(f"Gabim gjatë dekriptimit: {e}")
 
 while True:
     print("\n--- 3DES MENU ---")
