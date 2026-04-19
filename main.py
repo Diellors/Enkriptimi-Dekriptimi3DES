@@ -35,3 +35,21 @@ def enkripto_fajll():
         print("Fajlli u lexua me sukses!")
     except Exception as e:
         print(f"Gabim: {e}")
+
+        
+
+
+
+
+
+
+        
+while True:
+    print("\n--- 3DES MENU ---")
+    print("1. Enkripto Tekst")
+    print("2. Enkripto Fajll")
+    print("3. Dekripto Tekst")
+    print("4. Dekripto Fajll")
+    print("0. Dil")
+
+    zgjedhja = input("Zgjedhja: ")
