@@ -16,6 +16,21 @@ def enkripto_tekst():
 
     result = base64.b64encode(iv + encrypted).decode()
     print("\nTeksti i enkriptuar:", result)
+
+def dekripto_tekst():
+    encrypted_input = input("Shkruaj tekstin (Base64): ")
+    try:
+        data = base64.b64decode(encrypted_input)
+
+        iv = data[:8]
+        encrypted = data[8:]
+
+        cipher = DES3.new(KEY, DES3.MODE_CBC, iv=iv)
+        decrypted = unpad(cipher.decrypt(encrypted), DES3.block_size)
+
+        print("\nTeksti i dekriptuar:", decrypted.decode())
+    except:
+        print("Gabim gjatë dekriptimit!")
     
 
 def enkripto_fajll():
